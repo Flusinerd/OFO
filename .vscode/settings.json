@@ -4,5 +4,8 @@
   },
   "eslint.workingDirectories": [
     "./frontend"
-  ]
+  ],
+  "files.exclude": {
+    "**/.git": false
+  }
 }
