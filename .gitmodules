@@ -1,0 +1,6 @@
+[submodule "OFO-Frontend"]
+	path = frontend
+	url = https://github.com/Datenlotse/OFO-Frontend.git
+[submodule "OFO-Backend"]
+	path = backend
+	url = https://github.com/Datenlotse/OFO-Backend.git
