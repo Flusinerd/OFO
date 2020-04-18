@@ -5,7 +5,5 @@
   "eslint.workingDirectories": [
     "./frontend"
   ],
-  "files.exclude": {
-    "**/.git": false
-  }
+  "typescript.preferences.importModuleSpecifier": "relative"
 }
