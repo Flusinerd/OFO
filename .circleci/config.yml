@@ -10,28 +10,34 @@ jobs:
     steps:
       - checkout
       - node/with-cache:
-        steps:
-          - run:
-              name: Install dependencies
-              command: |
-                cd frontend
-                npm i
-                npm i -g @angular/cli
-                cd ../backend
-                npm i
-                npm i -g  @nest/cli
-          - run:
-              name: Build frontend
-              command: |
-                cd frontend
-                ng build --prod
-          - run:
-              name: Move frontend to backend
-              command: |
-                cd frontend
-                cp ./dist/ofo-app/* ../backend/src/client/
-          - run:
-              name: Build backend
-              command: |
-                cd backend
-                npm run build
+          steps:
+            - run:
+                name: Install dependencies
+                command: |
+                  cd frontend
+                  npm i
+                  npm i -g @angular/cli
+                  cd ../backend
+                  npm i
+                  npm i -g  @nest/cli
+            - run:
+                name: Build frontend
+                command: |
+                  cd frontend
+                  ng build --prod
+            - run:
+                name: Move frontend to backend
+                command: |
+                  cd frontend
+                  cp ./dist/ofo-app/* ../backend/src/client/
+            - run:
+                name: Build backend
+                command: |
+                  cd backend
+                  npm run build
+            - store_artifacts:
+                path: /backend/dist
+            - run:
+                name: Upload to releases
+                command: |
+                  ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./artifacts/
