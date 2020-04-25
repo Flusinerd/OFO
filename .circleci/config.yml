@@ -16,10 +16,10 @@ jobs:
                 command: |
                   cd frontend
                   npm i
-                  npm i -g @angular/cli
+                  sudo npm i -g @angular/cli
                   cd ../backend
                   npm i
-                  npm i -g  @nest/cli
+                  sudo npm i -g  @nest/cli
             - run:
                 name: Build frontend
                 command: |
