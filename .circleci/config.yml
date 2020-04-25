@@ -45,8 +45,7 @@ jobs:
                 name: Move frontend to backend
                 command: |
                   cd frontend
-                  ls ../backend/src
-                  cp ./dist/ofo-app/* ./backend/src/client/
+                  cp ./dist/ofo-app/* ../backend/src/client/
             - run:
                 name: Build backend
                 command: |
