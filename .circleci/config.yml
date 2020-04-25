@@ -14,22 +14,11 @@ jobs:
       - node/with-cache:
           steps:
             - run:
-                name: Install dependencies
-                command: |
-                  cd frontend
-                  npm i
-                  cd ../backend
-                  npm i
-            - run:
-                name: Build frontend
-                command: |
-                  cd frontend
-                  npm run build:prod
-            - run:
                 name: Move frontend to backend
                 command: |
                   cd frontend
-                  cp ./dist/ofo-app/* ../backend/src/client/
+                  ls ../backend/src
+                  cp ./dist/ofo-app/* ./backend/src/client/
             - run:
                 name: Build backend
                 command: |
