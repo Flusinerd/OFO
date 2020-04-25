@@ -9,6 +9,8 @@ jobs:
       name: 'node/default'
     steps:
       - checkout
+      - run: git submodule sync
+      - run: git submodule update --init
       - node/with-cache:
           steps:
             - run:
