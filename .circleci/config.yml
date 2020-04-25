@@ -10,7 +10,7 @@ jobs:
     steps:
       - checkout
       - run: git submodule sync
-      - run: git submodule update --init
+      - run: git submodule update --init --recursive
       - node/with-cache:
           steps:
             - run:
