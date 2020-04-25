@@ -19,13 +19,13 @@ jobs:
             - v3-deps
       - node/with-cache:
           steps:
-          - run:
-                name: Install dependencies
-                command: |
-                  cd frontend
-                  npm i
-                  cd ../backend
-                  npm i
+            - run:
+                  name: Install dependencies
+                  command: |
+                    cd frontend
+                    npm i
+                    cd ../backend
+                    npm i
             - run:
                 name: Build frontend
                 command: |
