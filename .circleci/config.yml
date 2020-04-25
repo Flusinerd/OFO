@@ -16,15 +16,13 @@ jobs:
                 command: |
                   cd frontend
                   npm i
-                  sudo npm i -g @angular/cli
                   cd ../backend
                   npm i
-                  sudo npm i -g  @nest/cli
             - run:
                 name: Build frontend
                 command: |
                   cd frontend
-                  ng build --prod
+                  npm run build:prod
             - run:
                 name: Move frontend to backend
                 command: |
