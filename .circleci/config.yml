@@ -60,9 +60,6 @@ jobs:
                 tag: v$CIRCLE_BUILD_NUM
                 title: Release v$CIRCLE_BUILD_NUM
                 artefacts-folder: backend/dist
-                filters:
-                  branches:
-                    only: master
 workflows:
     build-and-upload:
       jobs:
