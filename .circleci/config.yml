@@ -56,10 +56,14 @@ jobs:
                 command: |
                   cd backend
                   npm run build
+            - run:
+                name: Zip for release
+                command: |
+                  zip -r release.zip backend/dist/*
             - github/release:
                 tag: v$CIRCLE_BUILD_NUM
                 title: Release v$CIRCLE_BUILD_NUM
-                artefacts-folder: backend/dist
+                artefacts-folder: release.zip
 workflows:
     build-and-upload:
       jobs:
