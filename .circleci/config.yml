@@ -13,6 +13,7 @@ commands:
           command: npx lerna list -p -a | awk -F packages '{printf "\"packages%s/package-lock.json\" ", $2}' | xargs cat > << parameters.filename >>
 orbs:
   node: circleci/node@1.1.6
+  github: haskell-works/github-release@1.0.0
 jobs:
   build-and-upload:
     executor:
@@ -55,13 +56,13 @@ jobs:
                 command: |
                   cd backend
                   npm run build
-            - store_artifacts:
-                path: /backend/dist
-            - run:
-                name: Upload to releases
-                command: |
-                  go get github.com/tcnksm/ghr
-                  ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./artifacts/
+            - github/release:
+                tag: v$CIRCLE_BUILD_NUM
+                title: Release v$CIRCLE_BUILD_NUM
+                artefacts-folder: backend/dist
+                filters:
+                  branches:
+                    only: master
 workflows:
     build-and-upload:
       jobs:
