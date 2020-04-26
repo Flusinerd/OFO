@@ -59,11 +59,11 @@ jobs:
             - run:
                 name: Zip for release
                 command: |
-                  zip -r release.zip backend/dist/*
+                  zip -r release_upload.zip backend/dist/*
             - github/release:
                 tag: v$CIRCLE_BUILD_NUM
                 title: Release v$CIRCLE_BUILD_NUM
-                artefacts-folder: release.zip
+                artefacts-folder: release_upload.zip
 workflows:
     build-and-upload:
       jobs:
