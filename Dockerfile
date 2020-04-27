@@ -1,4 +1,6 @@
-FROM node
+FROM node:current-alpine
+
+ENV NODE_ENV=production
 
 RUN mkdir /opt/ofo
 
