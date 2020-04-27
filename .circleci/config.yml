@@ -18,7 +18,7 @@ jobs:
           steps:
             - run:
                 name: Install CLIs
-                command: npm i -g @angular/cli @nestjs/cli
+                command: sudo npm i -g @angular/cli @nestjs/cli
             - run:
                 name: Build Frontend
                 environment: 
