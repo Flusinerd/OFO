@@ -4,6 +4,8 @@ ENV NODE_ENV=production
 
 RUN mkdir /opt/ofo
 
+RUN apk add git
+
 RUN git clone https://github.com/Datenlotse/OFO.git /opt/ofo
 
 RUN cd /opt/ofo && git submodule update --init --recursive
