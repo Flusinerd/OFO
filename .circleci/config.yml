@@ -21,7 +21,7 @@ jobs:
                 command: sudo npm i -g @nestjs/cli
             - run:
                 name: Build Frontend
-                command: cd frontend && npm i && ng build --prod
+                command: cd frontend && npm i && npm run build:prod
             - run:
                 name: Move frontend to backend
                 command: |
