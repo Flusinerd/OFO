@@ -10,27 +10,16 @@ jobs:
     steps:
       # Setup environment
       - setup_remote_docker
+      - run:
+          name: Install git
+          command: sudo apt install git -y
       - restore_cache:
           keys:
             - v1-{{ .Branch }}
       - run:
-          name: Load Docker image layer cache
-          command: |
-            set +o pipefail
-            docker load -i /caches/ofo.tar | true
-      - run:
           name: Build application Docker image
           command: |
             docker build --cache-from=app -t ofo https://github.com/Datenlotse/OFO.git
-      - run:
-          name: Save Docker image layer cache
-          command: |
-            mkdir -p /caches
-            docker save -o /caches/ofo.tar ofo
-      - save_cache:
-          key: v1-{{ .Branch }}-{{ epoch }}
-          paths:
-            - /caches/ofo.tar
       - deploy:
           name: Push application Docker image
           command: |
