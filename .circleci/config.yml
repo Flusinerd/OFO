@@ -11,11 +11,9 @@ jobs:
     steps:
       # Setup environment
       - checkout
+      - setup_remote_docker
       - run: git submodule sync
       - run: git submodule update --init --recursive
-      - run:
-          name: Install Docker CLI
-          command: sudo apt-get install docker-ce docker-ce-cli containerd.io -y
       - node/with-cache:
           steps:
             - run:
