@@ -1,33 +1,17 @@
 FROM node:current-alpine
-
 ENV NODE_ENV=production
 
 RUN mkdir /opt/ofo
+WORKDIR /opt/ofo/
 
-RUN apk add git
-
-RUN git clone https://github.com/Datenlotse/OFO.git /opt/ofo
-
-RUN cd /opt/ofo && git submodule update --init --recursive
-
-RUN cd /opt/ofo/frontend && npm i
-
-RUN cd /opt/ofo/backend && npm i
-
-RUN cd /opt/ofo/frontend && npm run build:prod
-
-RUN cp /opt/ofo/frontend/dist/ofo-app/* /opt/ofo/backend/src/client/
-
-RUN cd /opt/ofo/backend && npm run build
+COPY ./backend /opt/ofo/
 
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
 RUN chmod +x /wait
 
-WORKDIR /opt/ofo/backend
-
 EXPOSE 3000
 
-CMD /wait && npm run start:prod && echo "App Started"
+CMD /wait && node /opt/ofo/dist/main.js && echo "App Started"
 
 
 
