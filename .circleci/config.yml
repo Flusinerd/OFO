@@ -5,27 +5,57 @@ orbs:
   github: haskell-works/github-release@1.0.0
 jobs:
   build-and-upload:
-    docker:
-      - image: docker:git
+    executor:
+      name: 'node/default'
     steps:
       # Setup environment
-      - setup_remote_docker
-      - restore_cache:
-          keys:
-            - v1-{{ .Branch }}
+      - checkout
+      - run: git submodule sync
+      - run: git submodule update --init --recursive
       - run:
-          name: Build application Docker image
+          name: Install Docker CLI
           command: |
-            docker build -t ofo https://github.com/Datenlotse/OFO.git
-      - deploy:
-          name: Push application Docker image
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              echo "${DOCKER_PASSWORD}" | docker login --username ${DOCKER_USERNAME} --password-stdin
-              docker tag ofo "datenlotse/ofo:${CIRCLE_SHA1}"
-              docker tag ofo "datenlotse/ofo:latest"
-              docker push "datenlotse/ofo"
-            fi
+            apt install apt-transport-https ca-certificates curl software-properties-common -y
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+            add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+            apt update
+            apt-cache policy docker-ce
+            apt install docker-ce
+      - node/with-cache:
+        - run:
+            name: Install CLIs
+            command: npm i -g @angular/cli @nestjs/cli
+        - run:
+            name: Build Frontend
+            environment: 
+              - NODE_ENV: production
+            command: cd frontend && npm i && ng build --prod
+        - run:
+            name: Move frontend to backend
+            command: |
+              cd frontend
+              cp ./dist/ofo-app/* ../backend/src/client/
+        - run:
+            name: Build backend
+            environment: 
+              - NODE_ENV: production
+            command: |
+              cd backend
+              npm i
+              npm run build
+        - run:
+            name: Build application Docker image
+            command: |
+              docker build -t ofo .
+        - deploy:
+            name: Push application Docker image
+            command: |
+              if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                echo "${DOCKER_PASSWORD}" | docker login --username ${DOCKER_USERNAME} --password-stdin
+                docker tag ofo "datenlotse/ofo:${CIRCLE_SHA1}"
+                docker tag ofo "datenlotse/ofo:latest"
+                docker push "datenlotse/ofo"
+              fi
 workflows:
     build-and-upload:
       jobs:
