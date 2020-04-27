@@ -23,6 +23,7 @@ jobs:
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               echo "${DOCKER_PASSWORD}" | docker login --username ${DOCKER_USERNAME} --password-stdin
               docker tag ofo "datenlotse/ofo:${CIRCLE_SHA1}"
+              docker tag ofo "datenlotse/ofo:latest"
               docker push "datenlotse/ofo:${CIRCLE_SHA1}"
             fi
 workflows:
