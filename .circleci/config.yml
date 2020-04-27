@@ -16,7 +16,7 @@ jobs:
       - run:
           name: Build application Docker image
           command: |
-            docker build --cache-from=app -t ofo https://github.com/Datenlotse/OFO.git
+            docker build -t ofo https://github.com/Datenlotse/OFO.git
       - deploy:
           name: Push application Docker image
           command: |
@@ -24,7 +24,7 @@ jobs:
               echo "${DOCKER_PASSWORD}" | docker login --username ${DOCKER_USERNAME} --password-stdin
               docker tag ofo "datenlotse/ofo:${CIRCLE_SHA1}"
               docker tag ofo "datenlotse/ofo:latest"
-              docker push "datenlotse/ofo:${CIRCLE_SHA1}"
+              docker push "datenlotse/ofo"
             fi
 workflows:
     build-and-upload:
