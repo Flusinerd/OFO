@@ -2,11 +2,8 @@ version: '3.4'
 
 services:
   ofo:
-    image: ofo:latest
+    image: datenlotse/ofo
     hostname: ofo
-    build:
-      context: .
-      dockerfile: Dockerfile
     ports:
       - 3000:3000
     environment: 
