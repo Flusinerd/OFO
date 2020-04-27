@@ -18,11 +18,9 @@ jobs:
           steps:
             - run:
                 name: Install CLIs
-                command: echo y | sudo npm i -g @angular/cli --silent && sudo npm i -g @nestjs/cli
+                command: sudo npm i -g @nestjs/cli
             - run:
                 name: Build Frontend
-                environment: 
-                  - NODE_ENV: production
                 command: cd frontend && npm i && ng build --prod
             - run:
                 name: Move frontend to backend
