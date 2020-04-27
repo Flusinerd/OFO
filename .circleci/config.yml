@@ -6,13 +6,10 @@ orbs:
 jobs:
   build-and-upload:
     docker:
-      - image: docker
+      - image: docker:git
     steps:
       # Setup environment
       - setup_remote_docker
-      - run:
-          name: Install git
-          command: apt install git -y
       - restore_cache:
           keys:
             - v1-{{ .Branch }}
