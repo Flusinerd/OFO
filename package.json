@@ -3,5 +3,9 @@
   "private": true,
   "devDependencies": {
     "lerna": "^3.20.2"
+  },
+  "dependencies": {
+    "@nestjs-modules/mailer": "^1.4.2",
+    "nodemailer": "^6.4.6"
   }
 }

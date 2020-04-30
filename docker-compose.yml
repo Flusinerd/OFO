@@ -4,16 +4,19 @@ services:
   ofo:
     image: root
     depends_on: 
-      - postgres
+      - mysql
     ports:
       - 3000:3000
     environment: 
-      WAIT_HOSTS: postgres:5432
+      WAIT_HOSTS: mysql:3306
 
-  postgres:
-    image: postgres
+  mysql:
+    image: mysql
     environment:
-      POSTGRES_USER: ofo
-      POSTGRES_PASSWORD: postgres
+      MYSQL_USER: ofo
+      MYSQL_PASSWORD: ofo
+      MYSQL_DATABASE: ofo
+      MYSQL_ROOT_PASSWORD: ofo
     expose: 
-      - 5432
+      - 3306
+    command: --default-authentication-plugin=mysql_native_password
