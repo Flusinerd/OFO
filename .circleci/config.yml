@@ -49,46 +49,46 @@ jobs:
                     docker push "datenlotse/ofo"
                   fi
 
-    build-and-upload-dev:
-      executor:
-        name: 'node/default'
-      steps:
-        # Setup environment
-        - checkout
-        - setup_remote_docker
-        - run: git submodule sync
-        - run: git submodule update --init --recursive
-        - node/with-cache:
-            steps:
-              - run:
-                  name: Install CLIs
-                  command: sudo npm i -g @nestjs/cli
-              - run:
-                  name: Build Frontend
-                  command: cd frontend && npm i && npm run build
-              - run:
-                  name: Move frontend to backend
-                  command: |
-                    cd frontend
-                    cp -r ./dist/ofo-app/* ../backend/src/client/
-              - run:
-                  name: Build backend
-                  command: |
-                    cd backend
-                    npm i
-                    npm run build
-              - run:
-                  name: Build application Docker image
-                  command: |
-                    docker build -t ofo -f Dockerfile_dev .
-              - deploy:
-                  name: Push application Docker image
-                  command: |
-                    if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                      echo "${DOCKER_PASSWORD}" | docker login --username ${DOCKER_USERNAME} --password-stdin
-                      docker tag ofo "datenlotse/ofo:latest_dev"
-                      docker push "datenlotse/ofo"
-                    fi
+  build-and-upload-dev:
+    executor:
+      name: 'node/default'
+    steps:
+      # Setup environment
+      - checkout
+      - setup_remote_docker
+      - run: git submodule sync
+      - run: git submodule update --init --recursive
+      - node/with-cache:
+          steps:
+            - run:
+                name: Install CLIs
+                command: sudo npm i -g @nestjs/cli
+            - run:
+                name: Build Frontend
+                command: cd frontend && npm i && npm run build
+            - run:
+                name: Move frontend to backend
+                command: |
+                  cd frontend
+                  cp -r ./dist/ofo-app/* ../backend/src/client/
+            - run:
+                name: Build backend
+                command: |
+                  cd backend
+                  npm i
+                  npm run build
+            - run:
+                name: Build application Docker image
+                command: |
+                  docker build -t ofo -f Dockerfile_dev .
+            - deploy:
+                name: Push application Docker image
+                command: |
+                  if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                    echo "${DOCKER_PASSWORD}" | docker login --username ${DOCKER_USERNAME} --password-stdin
+                    docker tag ofo "datenlotse/ofo:latest_dev"
+                    docker push "datenlotse/ofo"
+                  fi
 workflows:
     build-and-upload:
       jobs:
