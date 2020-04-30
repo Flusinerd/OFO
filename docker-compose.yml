@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   ofo:
-    image: root
+    image: datenlotse/ofo:latest
     depends_on: 
       - mysql
     ports:
