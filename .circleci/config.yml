@@ -21,7 +21,7 @@ jobs:
                 command: sudo npm i -g @nestjs/cli
             - run:
                 name: Build Frontend
-                command: cd frontend && npm i && npm run build:prod
+                command: cd frontend && npm i && npm run ngcc && npm run build:prod
             - run:
                 name: Move frontend to backend
                 command: |
@@ -65,7 +65,7 @@ jobs:
                 command: sudo npm i -g @nestjs/cli
             - run:
                 name: Build Frontend
-                command: cd frontend && npm i && npm run build
+                command: cd frontend && npm i && npm run ngcc && npm run build
             - run:
                 name: Move frontend to backend
                 command: |
