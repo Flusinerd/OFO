@@ -2,95 +2,12 @@
 version: 2.1
 # Use a package of configuration called an orb.
 orbs:
-  node: circleci/node@1.1.6
-  github: haskell-works/github-release@1.0.0
-jobs:
-  build-and-upload:
-    executor:
-      name: 'node/default'
-    steps:
-      # Setup environment
-      - checkout
-      - setup_remote_docker
-      - run: git submodule sync
-      - run: git submodule update --init --recursive
-      - node/with-cache:
-          steps:
-            - run:
-                name: Install CLIs
-                command: sudo npm i -g @nestjs/cli
-            - run:
-                name: Build Frontend
-                command: cd frontend && npm i && npm run ngcc && npm run build:prod
-            - run:
-                name: Move frontend to backend
-                command: |
-                  cd frontend
-                  cp -r ./dist/ofo-app/* ../backend/src/client/
-            - run:
-                name: Build backend
-                environment: 
-                  - NODE_ENV: production
-                command: |
-                  cd backend
-                  npm i
-                  npm run build
-            - run:
-                name: Build application Docker image
-                command: |
-                  docker build -t ofo .
-            - deploy:
-                name: Push application Docker image
-                command: |
-                  if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                    echo "${DOCKER_PASSWORD}" | docker login --username ${DOCKER_USERNAME} --password-stdin
-                    docker tag ofo "flusinerd/ofo:${CIRCLE_SHA1}"
-                    docker tag ofo "flusinerd/ofo:latest"
-                    docker push "flusinerd/ofo"
-                  fi
-
-  build-and-upload-dev:
-    executor:
-      name: 'node/default'
-    steps:
-      # Setup environment
-      - checkout
-      - setup_remote_docker
-      - run: git submodule sync
-      - run: git submodule update --init --recursive
-      - node/with-cache:
-          steps:
-            - run:
-                name: Install CLIs
-                command: sudo npm i -g @nestjs/cli
-            - run:
-                name: Build Frontend
-                command: cd frontend && npm i && npm run ngcc && npm run build
-            - run:
-                name: Move frontend to backend
-                command: |
-                  cd frontend
-                  cp -r ./dist/ofo-app/* ../backend/src/client/
-            - run:
-                name: Build backend
-                command: |
-                  cd backend
-                  npm i
-                  npm run build
-            - run:
-                name: Build application Docker image
-                command: |
-                  docker build -t ofo -f Dockerfile_dev .
-            - deploy:
-                name: Push application Docker image
-                command: |
-                  if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                    echo "${DOCKER_PASSWORD}" | docker login --username ${DOCKER_USERNAME} --password-stdin
-                    docker tag ofo "flusinerd/ofo:latest_dev"
-                    docker push "flusinerd/ofo"
-                  fi
+  # Declare a dependency on the welcome-orb
+  welcome: circleci/welcome-orb@0.4.1
+# Orchestrate or schedule a set of jobs
 workflows:
-    build-and-upload:
-      jobs:
-        - build-and-upload
-        - build-and-upload-dev
+  # Name the workflow "welcome"
+  welcome:
+    # Run the welcome/run job in its own container
+    jobs:
+      - welcome/run
