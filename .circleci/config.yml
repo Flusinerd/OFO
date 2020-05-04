@@ -3,7 +3,6 @@ version: 2.1
 # Use a package of configuration called an orb.
 orbs:
   node: circleci/node@1.1.6
-  github: haskell-works/github-release@1.0.0
 jobs:
   build-and-upload:
     executor:
