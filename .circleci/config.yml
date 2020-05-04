@@ -44,9 +44,9 @@ jobs:
                 command: |
                   if [ "${CIRCLE_BRANCH}" == "master" ]; then
                     echo "${DOCKER_PASSWORD}" | docker login --username ${DOCKER_USERNAME} --password-stdin
-                    docker tag ofo "datenlotse/ofo:${CIRCLE_SHA1}"
-                    docker tag ofo "datenlotse/ofo:latest"
-                    docker push "datenlotse/ofo"
+                    docker tag ofo "flusinerd/ofo:${CIRCLE_SHA1}"
+                    docker tag ofo "flusinerd/ofo:latest"
+                    docker push "flusinerd/ofo"
                   fi
 
   build-and-upload-dev:
@@ -86,8 +86,8 @@ jobs:
                 command: |
                   if [ "${CIRCLE_BRANCH}" == "master" ]; then
                     echo "${DOCKER_PASSWORD}" | docker login --username ${DOCKER_USERNAME} --password-stdin
-                    docker tag ofo "datenlotse/ofo:latest_dev"
-                    docker push "datenlotse/ofo"
+                    docker tag ofo "flusinerd/ofo:latest_dev"
+                    docker push "flusinerd/ofo"
                   fi
 workflows:
     build-and-upload:
