@@ -48,7 +48,7 @@ jobs:
                     docker tag ofo "flusinerd/ofo:latest"
                     docker push "flusinerd/ofo"
                   fi
-
+ 
   build-and-upload-dev:
     executor:
       name: 'node/default'
