@@ -1,6 +1,6 @@
 [submodule "OFO-Frontend"]
 	path = frontend
-	url = https://github.com/Datenlotse/OFO-Frontend.git
+	url = https://github.com/Flusinerd/OFO-Frontend.git
 [submodule "OFO-Backend"]
 	path = backend
-	url = https://github.com/Datenlotse/OFO-Backend.git
+	url = https://github.com/Flusinerd/OFO-Backend.git
